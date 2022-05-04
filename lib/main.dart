@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'api/hello.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -12,7 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'zhangguian -音乐盒'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -29,10 +32,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  String _message = "zz-音乐盒";
+
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
+  }
+
+  void _fetchdata() {
+    sayHello().then((value) => {
+          setState(() {
+            _message = value;
+          })
+        });
   }
 
   @override
@@ -45,6 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              _message,
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  _fetchdata();
+                },
+                child: Text('请求按钮')),
             Text(
               'You have pushed the button this many times:',
             ),
